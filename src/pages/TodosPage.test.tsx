@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { App } from './TodosPage'
@@ -11,7 +11,7 @@ vi.mock('../shared/components/SnackbarUndo', () => ({
 vi.mock('../shared/hooks/useUndoDelete', () => ({
   useUndoDelete: () => ({
     visible: false,
-    removeWithUndo: vi.fn((id: string) => {}),
+    removeWithUndo: vi.fn(() => {}),
     undo: vi.fn()
   })
 }))
