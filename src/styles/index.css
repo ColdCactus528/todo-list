@@ -1,0 +1,380 @@
+:root {
+  --bg: #f9fafb;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #e5e7eb;
+  --primary: #2563eb;
+  --danger: #b91c1c;
+  --focus: #93c5fd;
+  --card: #ffffff;
+  --hover: #f3f4f6;
+  --row-hover: #f9fafb;
+  --editing: #fefce8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 0 16px;
+}
+
+.header {
+  text-align: center;
+  font-size: 48px;
+  color: #e2e8f0;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.content {
+  padding: 12px;
+}
+
+input[type='text'] {
+  width: 100%;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 4px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+}
+
+li:last-child {
+  border-bottom: none;
+}
+
+li:hover {
+  background: var(--row-hover);
+}
+
+li.editing {
+  background: var(--editing);
+}
+
+li.editing input[type='text'] {
+  flex: 1;
+  border: 1px solid var(--border);
+  padding: 6px 8px;
+  font-size: 16px;
+}
+
+li.removed {
+  opacity: 0;
+  transform: translateX(-12px);
+}
+
+.todo-title.completed {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  border: 1px solid var(--border);
+  background: #fff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.btn:hover {
+  background: var(--hover);
+}
+
+.btn[aria-pressed='true'] {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.btn.danger {
+  color: var(--danger);
+  border: none; 
+  background: transparent;
+}
+
+.btn.danger:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  li,
+  .btn {
+    transition: none;
+  }
+}
+
+.snackbar {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  background: #111827;
+  color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  min-width: 280px;
+  max-width: 90vw;
+  overflow: hidden;
+  z-index: 9999;
+  animation: snackbar-in 160ms ease-out;
+}
+
+.snackbar__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+}
+
+.snackbar__text {
+  font-size: 14px;
+}
+
+.snackbar__action {
+  background: #1f2937;
+  border-color: transparent;
+  color: #fff;
+}
+
+.snackbar__action:hover {
+  background: #374151;
+}
+
+.snackbar__progress {
+  height: 3px;
+  background: linear-gradient(90deg, #60a5fa, #2563eb);
+  width: 100%;
+  animation: snack-progress var(--snack-duration, 5000ms) linear forwards;
+}
+
+@keyframes snack-progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+@keyframes snackbar-in {
+  from {
+    transform: translate(-50%, 8px);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .snackbar {
+    animation: none;
+  }
+  .snackbar__progress {
+    animation: none;
+  }
+}
+
+.item-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.item-actions {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.btn.icon {
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+.todo-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.edit-input {
+  width: 100%;
+  font-size: 16px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.edit-input:focus-visible {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+}
+
+li.editing {
+  background: var(--editing);
+  border-bottom-color: transparent;
+}
+
+.mini-controls {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: saturate(180%) blur(8px);
+  -webkit-backdrop-filter: saturate(180%) blur(8px);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  z-index: 9980;
+}
+
+.mini-controls .count {
+  min-width: 24px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #3730a3;
+  font-weight: 600;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e0e7ff;
+}
+
+.mini-controls .btn {
+  padding: 6px 10px;
+  font-size: 13px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #fff;
+}
+
+.mini-controls .btn:hover {
+  background: var(--hover);
+}
+
+.mini-controls .btn[aria-pressed='true'] {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.18) inset;
+  color: var(--primary);
+}
+
+.mini-controls .btn.danger {
+  color: var(--danger);
+  border: none;
+  background: transparent;
+}
+
+.mini-controls .btn.danger:hover {
+  background: #fee2e2;
+  border-color: #fecaca;
+}
+
+@media (max-width: 480px) {
+  .mini-controls {
+    gap: 6px;
+    padding: 6px 8px;
+  }
+  .mini-controls .btn {
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+  .mini-controls .count {
+    height: 22px;
+    min-width: 22px;
+    font-size: 12px;
+  }
+}
